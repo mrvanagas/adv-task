@@ -1,35 +1,40 @@
 @import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+header,
+footer {
+  flex: 0 1 auto;
+  padding: 20px;
+  background: var(--dark-color);
+  color: var(--light-color);
+  text-align: center;
 }
 
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+main {
+  flex: 1 1 auto;
+  padding: 20px;
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
+.grid-item {
+  flex: 1 1 200px;
+  padding: 20px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+  .nav {
+    flex-direction: column;
   }
 }
