@@ -28,8 +28,8 @@ const fetchWheelConfiguration = async (wheelId: string): Promise<WheelConfigurat
   return response.json()
 }
 
-const fetchStatistics = async (wheelId: string): Promise<ResultStatList[]> => {
-  const response = await fetch(`${BASE_URL}/${wheelId}/stats`)
+const fetchStatistics = async (wheelId: string, limit?: number): Promise<ResultStatList[]> => {
+  const response = await fetch(`${BASE_URL}/${wheelId}/stats?limit=${limit}`)
   if (!response.ok) {
     throw new Error('Failed to fetch stats')
   }

@@ -19,8 +19,8 @@ export interface WheelConfiguration {
 }
 
 export interface ResultStatList {
-  result: Number
-  count: Number
+  result: number
+  count: number
 }
 ;[]
 
