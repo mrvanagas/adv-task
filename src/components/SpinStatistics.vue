@@ -56,6 +56,7 @@
 import { ref, onMounted } from 'vue'
 import { rouletteService } from '@/services/rouletteService'
 import type { ResultStatList, WheelConfiguration } from '@/types/models'
+import { useApiStore } from '@/stores/apiStore'
 
 export default {
   name: 'SpinStatistics',
@@ -65,10 +66,14 @@ export default {
     const coldNumbers = ref<ResultStatList[]>([])
     const neutralNumbers = ref<ResultStatList[]>([])
     const hotNumbers = ref<ResultStatList[]>([])
+    const ApiStore = useApiStore()
 
     const fetchConfiguration = async () => {
       try {
-        wheelConfiguration.value = await rouletteService.fetchWheelConfiguration('1')
+        wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(
+          ApiStore.apiUrl,
+          '1'
+        )
       } catch (error) {
         console.error('Error fetching wheel configuration:', error)
       }
@@ -76,7 +81,7 @@ export default {
 
     const fetchStatistics = async () => {
       try {
-        const stats = await rouletteService.fetchStatistics('1', 200)
+        const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl, '1', 200)
         statistics.value = stats.sort((a, b) => a.count - b.count)
 
         const totalNumbers = statistics.value.length

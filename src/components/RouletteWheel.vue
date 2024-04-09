@@ -15,6 +15,8 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import type { WheelConfiguration } from '../types/models'
+
+import { useApiStore } from '@/stores/apiStore'
 import { rouletteService } from '../services/rouletteService'
 
 export default defineComponent({
@@ -23,10 +25,14 @@ export default defineComponent({
     const wheelConfiguration = ref<WheelConfiguration | null>(null)
     const loading = ref(true)
     const error = ref<string | null>(null)
+    const ApiStore = useApiStore()
 
     onMounted(async () => {
       try {
-        wheelConfiguration.value = await rouletteService.fetchWheelConfiguration('1')
+        wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(
+          ApiStore.apiUrl,
+          '1'
+        )
       } catch (err) {
         error.value = err instanceof Error ? err.message : 'An unknown error occurred'
       } finally {
