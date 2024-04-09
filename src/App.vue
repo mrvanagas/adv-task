@@ -5,7 +5,7 @@ import SpinStatistics from './components/SpinStatistics.vue';
 </script>
 
 <template>
-  <main>
+  <main class="container">
     <ApiInput />
     <RouletteWheel />
     <SpinStatistics />

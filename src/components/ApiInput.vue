@@ -1,6 +1,7 @@
 <template>
   <div>
-    <input type="text" v-model="inputValue" placeholder="Enter API URL" />
+    <div>API Input field</div>
+    <input class="input" type="text" v-model="inputValue" placeholder="Enter API URL" />
   </div>
 </template>
 
@@ -25,3 +26,12 @@ watch(inputValue, (newValue) => {
   debouncedSetApiUrl(newValue);
 });
 </script>
+
+<style scoped>
+.input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+</style>
