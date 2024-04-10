@@ -15,6 +15,7 @@ import { onMounted, ref } from 'vue'
 import { rouletteService } from '@/services/rouletteService'
 import { useApiStore } from '@/stores/apiStore'
 import type { GameResult } from '@/types/models'
+import { addLogEntry } from '@/services/logService'
 
 const countdown = ref(0)
 const gameResults = ref<GameResult[]>([])
@@ -33,10 +34,10 @@ async function startGameCycle() {
         clearInterval(countdownInterval)
 
         const result = await rouletteService.fetchGameResult(apiStore.apiUrl, gameId)
-        console.log('Game result:', result)
 
         if (result && result.outcome) {
           gameResults.value.push({ id: gameId, result: result.outcome })
+          addLogEntry(`Game ${gameId} finished, result is ${result.outcome}`)
         }
 
         startGameCycle()

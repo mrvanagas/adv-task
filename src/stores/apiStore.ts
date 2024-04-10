@@ -6,8 +6,7 @@ export const useApiStore = defineStore('api', {
   }),
   actions: {
     setApiUrl(newUrl: string) {
-      this.apiUrl = newUrl;
-      console.log(`API URL updated in store: ${newUrl}`);
+      this.apiUrl = newUrl
     }
   }
-});
+})
