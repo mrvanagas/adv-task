@@ -70,9 +70,7 @@ export default {
 
     const fetchConfiguration = async () => {
       try {
-        wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(
-          ApiStore.apiUrl
-        )
+        wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(ApiStore.apiUrl)
       } catch (error) {
         console.error('Error fetching wheel configuration:', error)
       }

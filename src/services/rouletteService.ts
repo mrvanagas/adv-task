@@ -10,9 +10,7 @@ const fetchSpin = async (apiUrl: string, uuid: string): Promise<Spin> => {
   return response.json()
 }
 
-const fetchWheelConfiguration = async (
-  apiUrl: string,
-): Promise<WheelConfiguration> => {
+const fetchWheelConfiguration = async (apiUrl: string): Promise<WheelConfiguration> => {
   const response = await fetch(`${apiUrl}/configuration`)
   if (!response.ok) {
     throw new Error('Failed to fetch wheel configuration')
@@ -20,10 +18,7 @@ const fetchWheelConfiguration = async (
   return response.json()
 }
 
-const fetchStatistics = async (
-  apiUrl: string,
-  limit?: number
-): Promise<ResultStatList[]> => {
+const fetchStatistics = async (apiUrl: string, limit?: number): Promise<ResultStatList[]> => {
   const response = await fetch(`${apiUrl}/stats?limit=${limit}`)
   if (!response.ok) {
     throw new Error('Failed to fetch stats')
@@ -31,8 +26,17 @@ const fetchStatistics = async (
   return response.json()
 }
 
+const fetchNextGame = async (apiUrl: string): Promise<Spin> => {
+  const response = await fetch(`${apiUrl}/nextGame`)
+  if (!response.ok) {
+    throw new Error('Failed to fetch next game')
+  }
+  return response.json()
+}
+
 export const rouletteService = {
   fetchSpin,
   fetchWheelConfiguration,
-  fetchStatistics
+  fetchStatistics,
+  fetchNextGame
 }

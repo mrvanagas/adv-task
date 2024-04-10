@@ -2,11 +2,11 @@ export interface Spin {
   id: string
   startTime: string
   time: string
-  startDelta: Number
-  startDeltaUs: Number
-  fakeStartDelta: Number
-  duration: Number
-  result: Number
+  startDelta: number
+  startDeltaUs: number
+  fakeStartDelta: number
+  duration: number
+  result: number
   outcome: string
 }
 

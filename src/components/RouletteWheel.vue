@@ -29,9 +29,7 @@ export default defineComponent({
 
     onMounted(async () => {
       try {
-        wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(
-          ApiStore.apiUrl
-        )
+        wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(ApiStore.apiUrl)
       } catch (err) {
         error.value = err instanceof Error ? err.message : 'An unknown error occurred'
       } finally {
