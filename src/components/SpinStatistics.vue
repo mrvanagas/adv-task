@@ -71,8 +71,7 @@ export default {
     const fetchConfiguration = async () => {
       try {
         wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(
-          ApiStore.apiUrl,
-          '1'
+          ApiStore.apiUrl
         )
       } catch (error) {
         console.error('Error fetching wheel configuration:', error)
@@ -81,7 +80,7 @@ export default {
 
     const fetchStatistics = async () => {
       try {
-        const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl, '1', 200)
+        const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl, 200)
         statistics.value = stats.sort((a, b) => a.count - b.count)
 
         const totalNumbers = statistics.value.length

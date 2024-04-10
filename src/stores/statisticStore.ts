@@ -11,9 +11,9 @@ export const useStatisticsStore = defineStore('statistics', {
   }),
 
   actions: {
-    async loadStatistics(wheelID: string) {
+    async loadStatistics() {
       try {
-        const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl, wheelID)
+        const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl)
         this.statistics = stats
       } catch (error) {
         console.error('Error fetching statistics:', error)

@@ -1,7 +1,7 @@
 import type { ResultStatList, Spin, WheelConfiguration } from '@/types/models'
 
-const fetchSpin = async (apiUrl: string, wheelId: string, uuid: string): Promise<Spin> => {
-  const response = await fetch(`${apiUrl}/${wheelId}/game/${uuid}`)
+const fetchSpin = async (apiUrl: string, uuid: string): Promise<Spin> => {
+  const response = await fetch(`${apiUrl}/game/${uuid}`)
 
   if (!response.ok) {
     throw new Error('Failed to fetch spin')
@@ -12,9 +12,8 @@ const fetchSpin = async (apiUrl: string, wheelId: string, uuid: string): Promise
 
 const fetchWheelConfiguration = async (
   apiUrl: string,
-  wheelId: string
 ): Promise<WheelConfiguration> => {
-  const response = await fetch(`${apiUrl}/${wheelId}/configuration`)
+  const response = await fetch(`${apiUrl}/configuration`)
   if (!response.ok) {
     throw new Error('Failed to fetch wheel configuration')
   }
@@ -23,10 +22,9 @@ const fetchWheelConfiguration = async (
 
 const fetchStatistics = async (
   apiUrl: string,
-  wheelId: string,
   limit?: number
 ): Promise<ResultStatList[]> => {
-  const response = await fetch(`${apiUrl}/${wheelId}/stats?limit=${limit}`)
+  const response = await fetch(`${apiUrl}/stats?limit=${limit}`)
   if (!response.ok) {
     throw new Error('Failed to fetch stats')
   }
