@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import ApiInput from './components/ApiInput.vue';
-import NextGameCountDown from './components/NextGameCountDown.vue';
+import ApiInput from './components/ApiInput.vue'
+import GameEvents from './components/GameEvents.vue';
 import RouletteWheel from './components/RouletteWheel.vue'
-import SpinStatistics from './components/SpinStatistics.vue';
+import SpinStatistics from './components/SpinStatistics.vue'
 </script>
 
 <template>
@@ -10,7 +10,7 @@ import SpinStatistics from './components/SpinStatistics.vue';
     <ApiInput />
     <RouletteWheel />
     <SpinStatistics />
-    <NextGameCountDown />
+    <GameEvents />
   </main>
 </template>
 

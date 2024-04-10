@@ -34,9 +34,18 @@ const fetchNextGame = async (apiUrl: string): Promise<Spin> => {
   return response.json()
 }
 
+const fetchGameResult = async (apiUrl: string , instanceId: number): Promise<Spin> => {
+  const response = await fetch(`${apiUrl}/game/${instanceId}`)
+  if (!response.ok) {
+    throw new Error('Failed to fetch game result');
+  }
+  return response.json()
+}
+
 export const rouletteService = {
   fetchSpin,
   fetchWheelConfiguration,
   fetchStatistics,
-  fetchNextGame
+  fetchNextGame,
+  fetchGameResult
 }

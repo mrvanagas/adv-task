@@ -1,5 +1,5 @@
 export interface Spin {
-  id: string
+  id: number
   startTime: string
   time: string
   startDelta: number
@@ -32,4 +32,9 @@ export interface ResultStat {
 export interface ActionLogEntry {
   timestamp: Date;
   action: string;
+}
+
+export interface GameResult {
+  id: number;
+  result: string;
 }
