@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr class="number-color">
           <td>Slot</td>
           <td
             v-for="number in coldNumbers"
@@ -130,5 +130,8 @@ export default {
 }
 .cold {
   background-color: #68b3ff;
+}
+.number-color {
+  color: #ffffff;
 }
 </style>
