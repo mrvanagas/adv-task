@@ -1,7 +1,9 @@
 <template>
-  <h2>Event Log</h2>
   <div class="logger-component">
-    <textarea v-model="logMessages" rows="10" readonly></textarea>
+    <div>
+      <h3>Event Log</h3>
+      <textarea v-model="logMessages" rows="10" readonly></textarea>
+    </div>
   </div>
 </template>
 
