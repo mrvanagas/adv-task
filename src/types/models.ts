@@ -29,12 +29,7 @@ export interface ResultStat {
   count: Number
 }
 
-export interface ActionLogEntry {
-  timestamp: Date;
-  action: string;
-}
-
 export interface GameResult {
-  id: number;
-  result: string;
+  id: number
+  result: string
 }

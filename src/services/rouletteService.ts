@@ -34,12 +34,24 @@ const fetchNextGame = async (apiUrl: string): Promise<Spin> => {
   return response.json()
 }
 
-const fetchGameResult = async (apiUrl: string , instanceId: number): Promise<Spin> => {
-  const response = await fetch(`${apiUrl}/game/${instanceId}`)
-  if (!response.ok) {
-    throw new Error('Failed to fetch game result');
-  }
-  return response.json()
+async function fetchGameResult(apiUrl: string, instanceId: number): Promise<Spin> {
+  let result: Spin
+
+  do {
+    const response = await fetch(`${apiUrl}/game/${instanceId}`)
+    if (!response.ok) {
+      throw new Error('Failed to fetch game result')
+    }
+    result = await response.json()
+
+    // Checks if startDelta is greater than 0, will retry if number is higher than 0
+    if (result.startDelta > 0) {
+      console.log(`Result not ready, retrying in ${result.startDelta} seconds...`)
+      await new Promise((resolve) => setTimeout(resolve, result.startDelta * 1000))
+    }
+  } while (result.startDelta > 0)
+
+  return result
 }
 
 export const rouletteService = {
