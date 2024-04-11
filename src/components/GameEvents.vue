@@ -5,13 +5,12 @@
         Game ID: {{ gameResult.id }}, Result: {{ gameResult.result }}
       </li>
     </ul>
-    <div v-if="countdown > 0">Next game starts in: {{ countdown }} seconds</div>
-    <div v-else>Waiting for the next game...</div>
+    <div>{{ countdownMessage }}</div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { rouletteService } from '@/services/rouletteService'
 import { useApiStore } from '@/stores/apiStore'
 import type { GameResult } from '@/types/models'
@@ -21,6 +20,14 @@ const countdown = ref(0)
 const gameResults = ref<GameResult[]>([])
 
 const apiStore = useApiStore()
+
+const countdownMessage = computed(() => {
+  if (countdown.value > 0) {
+    return `Next game starts in: ${countdown.value} seconds`
+  } else {
+    return 'Waiting for the next game...'
+  }
+})
 
 async function startGameCycle() {
   try {
