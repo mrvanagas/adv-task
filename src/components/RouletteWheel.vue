@@ -12,42 +12,18 @@
   <div v-else>Loading...</div>
 </template>
 
-<script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+<script setup lang="ts">
+import { defineProps } from 'vue'
 import type { WheelConfiguration } from '../types/models'
 
-import { useApiStore } from '@/stores/apiStore'
-import { rouletteService } from '../services/rouletteService'
+const props = defineProps<{
+  wheelConfiguration: WheelConfiguration | null
+}>()
 
-export default defineComponent({
-  name: 'RouletteWheel',
-  setup() {
-    const wheelConfiguration = ref<WheelConfiguration | null>(null)
-    const loading = ref(true)
-    const error = ref<string | null>(null)
-    const ApiStore = useApiStore()
-
-    onMounted(async () => {
-      try {
-        wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(ApiStore.apiUrl)
-      } catch (err) {
-        error.value = err instanceof Error ? err.message : 'An unknown error occurred'
-      } finally {
-        loading.value = false
-      }
-    })
-
-    const getColor = (positionId: number) => {
-      return wheelConfiguration.value?.colors[positionId]
-    }
-
-    const getResult = (positionId: number) => {
-      return wheelConfiguration.value?.results[positionId]
-    }
-
-    return { wheelConfiguration, loading, error, getColor, getResult }
-  }
-})
+const getColor = (positionId: number) =>
+  props.wheelConfiguration?.colors[positionId] ?? 'defaultColor'
+const getResult = (positionId: number) =>
+  props.wheelConfiguration?.results[positionId] ?? 'defaultResult'
 </script>
 
 <style scoped>

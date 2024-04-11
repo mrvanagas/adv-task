@@ -52,56 +52,40 @@
   </div>
 </template>
 
-<script script lang="ts">
-import { ref, onMounted } from 'vue'
-import { rouletteService } from '@/services/rouletteService'
-import type { ResultStatList, WheelConfiguration } from '@/types/models'
+<script setup lang="ts">
+import { defineProps, onMounted, ref } from 'vue'
+import type { WheelConfiguration, ResultStatList } from '@/types/models'
 import { useApiStore } from '@/stores/apiStore'
+import { rouletteService } from '@/services/rouletteService'
+const statistics = ref<ResultStatList[]>([])
+const coldNumbers = ref<ResultStatList[]>([])
+const neutralNumbers = ref<ResultStatList[]>([])
+const hotNumbers = ref<ResultStatList[]>([])
+const ApiStore = useApiStore()
 
-export default {
-  name: 'SpinStatistics',
-  setup() {
-    const wheelConfiguration = ref<WheelConfiguration | null>(null)
-    const statistics = ref<ResultStatList[]>([])
-    const coldNumbers = ref<ResultStatList[]>([])
-    const neutralNumbers = ref<ResultStatList[]>([])
-    const hotNumbers = ref<ResultStatList[]>([])
-    const ApiStore = useApiStore()
+const props = defineProps<{
+  wheelConfiguration: WheelConfiguration | null
+}>()
 
-    const fetchConfiguration = async () => {
-      try {
-        wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(ApiStore.apiUrl)
-      } catch (error) {
-        console.error('Error fetching wheel configuration:', error)
-      }
-    }
+const fetchStatistics = async () => {
+  try {
+    const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl, 200)
+    statistics.value = stats.sort((a, b) => a.count - b.count)
 
-    const fetchStatistics = async () => {
-      try {
-        const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl, 200)
-        statistics.value = stats.sort((a, b) => a.count - b.count)
-
-        const totalNumbers = statistics.value.length
-        coldNumbers.value = statistics.value.slice(0, 5)
-        hotNumbers.value = statistics.value.slice(-5)
-        neutralNumbers.value = statistics.value.slice(5, totalNumbers - 5)
-      } catch (error) {
-        console.error('Error fetching statistics:', error)
-      }
-    }
-
-    onMounted(async () => {
-      await fetchConfiguration()
-      await fetchStatistics()
-    })
-
-    const getColor = (positionId: number) => {
-      return wheelConfiguration.value?.colors[positionId]
-    }
-
-    return { coldNumbers, neutralNumbers, hotNumbers, getColor }
+    const totalNumbers = statistics.value.length
+    coldNumbers.value = statistics.value.slice(0, 5)
+    hotNumbers.value = statistics.value.slice(-5)
+    neutralNumbers.value = statistics.value.slice(5, totalNumbers - 5)
+  } catch (error) {
+    console.error('Error fetching statistics:', error)
   }
 }
+
+const getColor = (positionId: number) => props.wheelConfiguration?.colors[positionId]
+
+onMounted(async () => {
+  await fetchStatistics()
+})
 </script>
 
 <style scoped>
