@@ -55,13 +55,12 @@
 <script setup lang="ts">
 import { defineProps, onMounted, ref } from 'vue';
 import type { WheelConfiguration, ResultStatList } from '@/types/models';
-import { useApiStore } from '@/stores/apiStore';
-import { rouletteService } from '@/services/rouletteService';
+import { useStatisticsStore } from '@/stores/statisticStore';
 const statistics = ref<ResultStatList[]>([]);
 const coldNumbers = ref<ResultStatList[]>([]);
 const neutralNumbers = ref<ResultStatList[]>([]);
 const hotNumbers = ref<ResultStatList[]>([]);
-const ApiStore = useApiStore();
+const statStore = useStatisticsStore();
 
 const props = defineProps<{
   wheelConfiguration: WheelConfiguration | null;
@@ -69,9 +68,11 @@ const props = defineProps<{
 
 const fetchStatistics = async () => {
   try {
-    const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl, 200);
-    statistics.value = stats.sort((a, b) => a.count - b.count);
+    await statStore.loadStatistics();
+    const stats = [...statStore.statistics];
+    const sortedStats = stats.sort((a, b) => a.count - b.count);
 
+    statistics.value = sortedStats;
     const totalNumbers = statistics.value.length;
     coldNumbers.value = statistics.value.slice(0, 5);
     hotNumbers.value = statistics.value.slice(-5);
