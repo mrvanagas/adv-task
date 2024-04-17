@@ -12,6 +12,8 @@ import type { WheelConfiguration } from './types/models';
 const apiStore = useApiStore();
 const wheelConfiguration = ref<WheelConfiguration | null>(null);
 
+const activeView = ref('gameBoard');
+
 onMounted(async () => {
   try {
     wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(apiStore.apiUrl);
@@ -23,15 +25,25 @@ onMounted(async () => {
 
 <template>
   <main class="container">
-    <div class="api-input">
-      <ApiInput />
+    <div>
+      <div class="api-input">
+        <ApiInput />
+      </div>
+      <div>
+        <button class="button" @click="activeView = 'gameBoard'">
+          Game Board and Spin History
+        </button>
+        <button class="button" @click="activeView = 'statistics'">Statistics and Event Log</button>
+      </div>
     </div>
-    <div class="wheel-and-stats">
+
+    <div v-if="activeView === 'gameBoard'" class="wheel-and-stats">
       <RouletteWheel :wheelConfiguration="wheelConfiguration" />
-      <SpinStatistics :wheelConfiguration="wheelConfiguration" />
-    </div>
-    <div class="logs">
       <GameEvents />
+    </div>
+
+    <div v-if="activeView === 'statistics'" class="logs">
+      <SpinStatistics :wheelConfiguration="wheelConfiguration" />
       <EventLog />
     </div>
   </main>
@@ -62,8 +74,13 @@ onMounted(async () => {
 
 .logs {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-area: logs;
   gap: 20px;
+}
+
+.button {
+  margin: 10px 10px 10px 10px;
+  padding: 5px;
 }
 </style>
