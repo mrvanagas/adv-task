@@ -53,40 +53,33 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, ref } from 'vue';
-import type { WheelConfiguration, ResultStatList } from '@/types/models';
+import { computed, onMounted } from 'vue';
 import { useStatisticsStore } from '@/stores/statisticStore';
-const statistics = ref<ResultStatList[]>([]);
-const coldNumbers = ref<ResultStatList[]>([]);
-const neutralNumbers = ref<ResultStatList[]>([]);
-const hotNumbers = ref<ResultStatList[]>([]);
-const statStore = useStatisticsStore();
+import type { WheelConfiguration, ResultStatList } from '@/types/models';
 
 const props = defineProps<{
   wheelConfiguration: WheelConfiguration | null;
 }>();
 
-const fetchStatistics = async () => {
-  try {
-    await statStore.loadStatistics();
-    const stats = [...statStore.statistics];
-    const sortedStats = stats.sort((a, b) => a.count - b.count);
+const statStore = useStatisticsStore();
 
-    statistics.value = sortedStats;
-    const totalNumbers = statistics.value.length;
-    coldNumbers.value = statistics.value.slice(0, 5);
-    hotNumbers.value = statistics.value.slice(-5);
-    neutralNumbers.value = statistics.value.slice(5, totalNumbers - 5);
-  } catch (error) {
-    console.error('Error fetching statistics:', error);
-  }
-};
-
-const getColor = (positionId: number) => props.wheelConfiguration?.colors[positionId];
-
-onMounted(async () => {
-  await fetchStatistics();
+onMounted(() => {
+  statStore.loadStatistics();
 });
+
+const sortedStatistics = computed(() => {
+  return [...statStore.statistics].sort((a, b) => a.count - b.count);
+});
+
+const coldNumbers = computed<ResultStatList[]>(() => sortedStatistics.value.slice(0, 5));
+const neutralNumbers = computed<ResultStatList[]>(() =>
+  sortedStatistics.value.slice(5, sortedStatistics.value.length - 5)
+);
+const hotNumbers = computed<ResultStatList[]>(() => sortedStatistics.value.slice(-5));
+
+const getColor = (positionId: number): string | undefined => {
+  return props.wheelConfiguration?.colors[positionId];
+};
 </script>
 
 <style scoped>
@@ -106,15 +99,6 @@ onMounted(async () => {
 }
 .statistics-table tr:nth-child(even) {
   background-color: #f9f9f9;
-}
-.hot {
-  background-color: #ff6868;
-}
-.neutral {
-  background-color: #fff;
-}
-.cold {
-  background-color: #68b3ff;
 }
 .number-color {
   color: #ffffff;

@@ -15,6 +15,7 @@ export const useStatisticsStore = defineStore('statistics', {
       this.isLoading = true;
       this.error = null;
       try {
+        console.log('fetching new stats');
         const ApiStore = useApiStore();
         const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl, 200);
         this.statistics = stats;

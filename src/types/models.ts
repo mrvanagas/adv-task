@@ -28,3 +28,8 @@ export interface GameResult {
   id: number;
   result: string;
 }
+
+export interface ResultStat {
+  result: Number;
+  count: Number;
+}

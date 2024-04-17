@@ -15,10 +15,11 @@ import { rouletteService } from '@/services/rouletteService';
 import { useApiStore } from '@/stores/apiStore';
 import type { GameResult } from '@/types/models';
 import { addLogEntry } from '@/services/logService';
+import { useStatisticsStore } from '@/stores/statisticStore';
 
 const countdown = ref(0);
 const gameResults = ref<GameResult[]>([]);
-
+const statisticsStore = useStatisticsStore(); // Use your statistics store
 const apiStore = useApiStore();
 
 const countdownMessage = computed(() => {
@@ -44,6 +45,7 @@ async function startGameCycle() {
 
         if (result && result.outcome) {
           gameResults.value.push({ id: gameId, result: result.outcome });
+          await statisticsStore.loadStatistics();
           addLogEntry(`Game ${gameId} finished, result is ${result.outcome}`);
         }
 
