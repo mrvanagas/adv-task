@@ -53,39 +53,39 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, ref } from 'vue'
-import type { WheelConfiguration, ResultStatList } from '@/types/models'
-import { useApiStore } from '@/stores/apiStore'
-import { rouletteService } from '@/services/rouletteService'
-const statistics = ref<ResultStatList[]>([])
-const coldNumbers = ref<ResultStatList[]>([])
-const neutralNumbers = ref<ResultStatList[]>([])
-const hotNumbers = ref<ResultStatList[]>([])
-const ApiStore = useApiStore()
+import { defineProps, onMounted, ref } from 'vue';
+import type { WheelConfiguration, ResultStatList } from '@/types/models';
+import { useApiStore } from '@/stores/apiStore';
+import { rouletteService } from '@/services/rouletteService';
+const statistics = ref<ResultStatList[]>([]);
+const coldNumbers = ref<ResultStatList[]>([]);
+const neutralNumbers = ref<ResultStatList[]>([]);
+const hotNumbers = ref<ResultStatList[]>([]);
+const ApiStore = useApiStore();
 
 const props = defineProps<{
-  wheelConfiguration: WheelConfiguration | null
-}>()
+  wheelConfiguration: WheelConfiguration | null;
+}>();
 
 const fetchStatistics = async () => {
   try {
-    const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl, 200)
-    statistics.value = stats.sort((a, b) => a.count - b.count)
+    const stats = await rouletteService.fetchStatistics(ApiStore.apiUrl, 200);
+    statistics.value = stats.sort((a, b) => a.count - b.count);
 
-    const totalNumbers = statistics.value.length
-    coldNumbers.value = statistics.value.slice(0, 5)
-    hotNumbers.value = statistics.value.slice(-5)
-    neutralNumbers.value = statistics.value.slice(5, totalNumbers - 5)
+    const totalNumbers = statistics.value.length;
+    coldNumbers.value = statistics.value.slice(0, 5);
+    hotNumbers.value = statistics.value.slice(-5);
+    neutralNumbers.value = statistics.value.slice(5, totalNumbers - 5);
   } catch (error) {
-    console.error('Error fetching statistics:', error)
+    console.error('Error fetching statistics:', error);
   }
-}
+};
 
-const getColor = (positionId: number) => props.wheelConfiguration?.colors[positionId]
+const getColor = (positionId: number) => props.wheelConfiguration?.colors[positionId];
 
 onMounted(async () => {
-  await fetchStatistics()
-})
+  await fetchStatistics();
+});
 </script>
 
 <style scoped>

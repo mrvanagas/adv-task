@@ -1,35 +1,35 @@
 export interface Spin {
-  id: number
-  startTime: string
-  time: string
-  startDelta: number
-  startDeltaUs: number
-  fakeStartDelta: number
-  duration: number
-  result: number
-  outcome: string
+  id: number;
+  startTime: string;
+  time: string;
+  startDelta: number;
+  startDeltaUs: number;
+  fakeStartDelta: number;
+  duration: number;
+  result: number;
+  outcome: string;
 }
 
 export interface WheelConfiguration {
-  name: string
-  slots: number
-  results: string[]
-  colors: ('red' | 'black' | 'green')[]
-  positionToId: number[]
+  name: string;
+  slots: number;
+  results: string[];
+  colors: ('red' | 'black' | 'green')[];
+  positionToId: number[];
 }
 
 export interface ResultStatList {
-  result: number
-  count: number
+  result: number;
+  count: number;
 }
-;[]
+[];
 
 export interface ResultStat {
-  result: Number
-  count: Number
+  result: Number;
+  count: Number;
 }
 
 export interface GameResult {
-  id: number
-  result: string
+  id: number;
+  result: string;
 }

@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import ApiInput from './components/ApiInput.vue'
-import EventLog from './components/EventLog.vue'
-import GameEvents from './components/GameEvents.vue'
-import RouletteWheel from './components/RouletteWheel.vue'
-import SpinStatistics from './components/SpinStatistics.vue'
-import { useApiStore } from './stores/apiStore'
-import { rouletteService } from './services/rouletteService'
-import type { WheelConfiguration } from './types/models'
+import { onMounted, ref } from 'vue';
+import ApiInput from './components/ApiInput.vue';
+import EventLog from './components/EventLog.vue';
+import GameEvents from './components/GameEvents.vue';
+import RouletteWheel from './components/RouletteWheel.vue';
+import SpinStatistics from './components/SpinStatistics.vue';
+import { useApiStore } from './stores/apiStore';
+import { rouletteService } from './services/rouletteService';
+import type { WheelConfiguration } from './types/models';
 
-const apiStore = useApiStore()
-const wheelConfiguration = ref<WheelConfiguration | null>(null)
+const apiStore = useApiStore();
+const wheelConfiguration = ref<WheelConfiguration | null>(null);
 
 onMounted(async () => {
   try {
-    wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(apiStore.apiUrl)
+    wheelConfiguration.value = await rouletteService.fetchWheelConfiguration(apiStore.apiUrl);
   } catch (error) {
-    console.error('Failed to fetch wheel configuration:', error)
+    console.error('Failed to fetch wheel configuration:', error);
   }
-})
+});
 </script>
 
 <template>

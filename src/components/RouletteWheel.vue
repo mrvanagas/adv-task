@@ -13,17 +13,17 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import type { WheelConfiguration } from '../types/models'
+import { defineProps } from 'vue';
+import type { WheelConfiguration } from '../types/models';
 
 const props = defineProps<{
-  wheelConfiguration: WheelConfiguration | null
-}>()
+  wheelConfiguration: WheelConfiguration | null;
+}>();
 
 const getColor = (positionId: number) =>
-  props.wheelConfiguration?.colors[positionId] ?? 'defaultColor'
+  props.wheelConfiguration?.colors[positionId] ?? 'defaultColor';
 const getResult = (positionId: number) =>
-  props.wheelConfiguration?.results[positionId] ?? 'defaultResult'
+  props.wheelConfiguration?.results[positionId] ?? 'defaultResult';
 </script>
 
 <style scoped>

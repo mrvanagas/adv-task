@@ -10,53 +10,53 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import { rouletteService } from '@/services/rouletteService'
-import { useApiStore } from '@/stores/apiStore'
-import type { GameResult } from '@/types/models'
-import { addLogEntry } from '@/services/logService'
+import { computed, onMounted, ref } from 'vue';
+import { rouletteService } from '@/services/rouletteService';
+import { useApiStore } from '@/stores/apiStore';
+import type { GameResult } from '@/types/models';
+import { addLogEntry } from '@/services/logService';
 
-const countdown = ref(0)
-const gameResults = ref<GameResult[]>([])
+const countdown = ref(0);
+const gameResults = ref<GameResult[]>([]);
 
-const apiStore = useApiStore()
+const apiStore = useApiStore();
 
 const countdownMessage = computed(() => {
   if (countdown.value > 0) {
-    return `Next game starts in: ${countdown.value} seconds`
+    return `Next game starts in: ${countdown.value} seconds`;
   } else {
-    return 'Waiting for the next game...'
+    return 'Waiting for the next game...';
   }
-})
+});
 
 async function startGameCycle() {
   try {
-    const nextGame = await rouletteService.fetchNextGame(apiStore.apiUrl)
-    countdown.value = nextGame.fakeStartDelta
-    const gameId = nextGame.id
+    const nextGame = await rouletteService.fetchNextGame(apiStore.apiUrl);
+    countdown.value = nextGame.fakeStartDelta;
+    const gameId = nextGame.id;
 
     const countdownInterval = setInterval(async () => {
-      countdown.value--
+      countdown.value--;
       if (countdown.value <= 0) {
-        clearInterval(countdownInterval)
+        clearInterval(countdownInterval);
 
-        const result = await rouletteService.fetchGameResult(apiStore.apiUrl, gameId)
+        const result = await rouletteService.fetchGameResult(apiStore.apiUrl, gameId);
 
         if (result && result.outcome) {
-          gameResults.value.push({ id: gameId, result: result.outcome })
-          addLogEntry(`Game ${gameId} finished, result is ${result.outcome}`)
+          gameResults.value.push({ id: gameId, result: result.outcome });
+          addLogEntry(`Game ${gameId} finished, result is ${result.outcome}`);
         }
 
-        startGameCycle()
+        startGameCycle();
       }
-    }, 1000)
+    }, 1000);
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
 }
 
 // Initial start
 onMounted(() => {
-  startGameCycle()
-})
+  startGameCycle();
+});
 </script>

@@ -8,14 +8,14 @@
 </template>
 
 <script setup lang="ts">
-import { addLogEntry, logEntries } from '@/services/logService'
-import { computed, onMounted } from 'vue'
+import { addLogEntry, logEntries } from '@/services/logService';
+import { computed, onMounted } from 'vue';
 
-const logMessages = computed(() => logEntries.value.join('\n'))
+const logMessages = computed(() => logEntries.value.join('\n'));
 
 onMounted(() => {
-  addLogEntry('App started')
-})
+  addLogEntry('App started');
+});
 </script>
 
 <style scoped>

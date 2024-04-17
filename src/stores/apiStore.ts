@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 export const useApiStore = defineStore('api', {
   state: () => ({
@@ -6,7 +6,7 @@ export const useApiStore = defineStore('api', {
   }),
   actions: {
     setApiUrl(newUrl: string) {
-      this.apiUrl = newUrl
+      this.apiUrl = newUrl;
     }
   }
-})
+});
