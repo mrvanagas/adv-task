@@ -24,11 +24,6 @@ export interface ResultStatList {
 }
 [];
 
-export interface ResultStat {
-  result: Number;
-  count: Number;
-}
-
 export interface GameResult {
   id: number;
   result: string;
