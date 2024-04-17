@@ -50,8 +50,7 @@ async function startGameCycle() {
           await statisticsStore.loadStatistics();
           addLogEntry(`Game ${gameId} finished, result is ${result.outcome}`);
         }
-
-        startGameCycle();
+        setTimeout(startGameCycle, 10000);
       }
     }, 1000);
   } catch (err) {
