@@ -6,19 +6,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { computed } from 'vue';
 import { useApiStore } from '@/stores/apiStore';
 import debounce from 'lodash/debounce';
 
 const store = useApiStore();
-const inputValue = ref(store.apiUrl);
 
-const debouncedSetApiUrl = debounce((newValue: string) => {
-  store.setApiUrl(newValue);
-}, 1000);
-
-watch(inputValue, (newValue) => {
-  debouncedSetApiUrl(newValue);
+const inputValue = computed({
+  get: () => store.apiUrl,
+  set: debounce((newValue: string) => {
+    store.setApiUrl(newValue);
+  }, 1000)
 });
 </script>
 
